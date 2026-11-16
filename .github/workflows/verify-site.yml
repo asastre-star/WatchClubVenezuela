@@ -1,18 +1,31 @@
 name: Verify Watch Club Website
-"on":
+
+on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   verify:
-  - run: sh ./tests/run-tests.sh
+    name: Validate Watch Club Website
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: ./tests/run-tests.sh
+
+      - name: Verify website
+        run: sh ./tests/run-tests.sh
